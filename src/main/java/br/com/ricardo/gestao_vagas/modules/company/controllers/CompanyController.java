@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ricardo.gestao_vagas.modules.company.entities.CompanyEntity;
+import br.com.ricardo.gestao_vagas.modules.company.dto.CreateCompanyDTO;
 import br.com.ricardo.gestao_vagas.modules.company.use_cases.CreateCompanyUseCase;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +33,7 @@ public class CompanyController {
             @ApiResponse(responseCode = "200", description = "Empresa criada com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos")
     })
-    public ResponseEntity<Object> createCompany(@Valid @RequestBody CompanyEntity companyData) {
+    public ResponseEntity<Object> createCompany(@Valid @RequestBody CreateCompanyDTO companyData) {
         try {
             return ResponseEntity.ok().body(createCompanyUseCase.execute(companyData));
         } catch (Exception e) {
