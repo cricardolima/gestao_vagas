@@ -25,6 +25,7 @@ public class CandidateEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
+
     @NotBlank(message = "O campo [username] não pode ser vazio")
     @Pattern(regexp = "\\S+", message = "O campo [username] não pode conter espaços em branco")
     private String username;
