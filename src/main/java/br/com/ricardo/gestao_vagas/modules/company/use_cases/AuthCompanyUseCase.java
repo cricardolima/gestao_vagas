@@ -3,8 +3,6 @@ package br.com.ricardo.gestao_vagas.modules.company.use_cases;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

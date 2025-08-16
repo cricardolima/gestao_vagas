@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ricardo.gestao_vagas.modules.candidate.CandidateEntity;
+import br.com.ricardo.gestao_vagas.modules.candidate.dto.CreateCandidateDTO;
 import br.com.ricardo.gestao_vagas.modules.candidate.use_cases.CreateCandidateUseCase;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +34,7 @@ public class CandidateController {
             @ApiResponse(responseCode = "200", description = "Candidato criado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos")
     })
-    public ResponseEntity<Object> createCandidate(@Valid @RequestBody CandidateEntity candidateData) {
+    public ResponseEntity<Object> createCandidate(@Valid @RequestBody CreateCandidateDTO candidateData) {
         try {
             return ResponseEntity.ok().body(createCandidateUseCase.execute(candidateData));
         } catch (Exception e) {

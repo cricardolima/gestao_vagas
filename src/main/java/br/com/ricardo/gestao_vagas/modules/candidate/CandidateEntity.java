@@ -11,9 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
@@ -26,14 +23,10 @@ public class CandidateEntity {
     private UUID id;
     private String name;
 
-    @NotBlank(message = "O campo [username] não pode ser vazio")
-    @Pattern(regexp = "\\S+", message = "O campo [username] não pode conter espaços em branco")
     private String username;
 
-    @Email(message = "O [email] informado não é válido")
     private String email;
 
-    @Length(min = 8, max = 12, message = "A senha deve ter entre 8 e 12 caracteres")
     private String password;
     private String description;
     private String curriculum;
