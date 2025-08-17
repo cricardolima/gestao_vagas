@@ -4,17 +4,17 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.ricardo.gestao_vagas.exceptions.UserFoundException;
 import br.com.ricardo.gestao_vagas.modules.candidate.CandidateEntity;
 import br.com.ricardo.gestao_vagas.modules.candidate.CandidateRepository;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.CreateCandidateDTO;
-import br.com.ricardo.gestao_vagas.exceptions.UserFoundException;
 
 @Service
 public class CreateCandidateUseCase {
     private final CandidateRepository candidateRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    CreateCandidateUseCase(CandidateRepository candidateRepository, PasswordEncoder passwordEncoder) {
+    public CreateCandidateUseCase(CandidateRepository candidateRepository, PasswordEncoder passwordEncoder) {
         this.candidateRepository = candidateRepository;
         this.passwordEncoder = passwordEncoder;
     }

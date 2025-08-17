@@ -3,7 +3,6 @@ package br.com.ricardo.gestao_vagas.modules.candidate.dto;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +10,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class CreateCandidateDTO {
+
     @NotNull(message = "O campo [name] é obrigatório")
     private String name;
     @NotNull(message = "O campo [username] é obrigatório")

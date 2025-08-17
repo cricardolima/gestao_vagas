@@ -19,11 +19,12 @@ import br.com.ricardo.gestao_vagas.modules.company.dto.AuthCompanyDTO;
 
 @Service
 public class AuthCompanyUseCase {
+
     @Value("${security.token.secret}")
     private String secretKey;
 
-    private CompanyRepository companyRepository;
-    private PasswordEncoder passwordEncoder;
+    private final CompanyRepository companyRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthCompanyUseCase(CompanyRepository companyRepository, PasswordEncoder passwordEncoder) {
         this.companyRepository = companyRepository;

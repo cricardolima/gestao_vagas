@@ -1,16 +1,13 @@
 package br.com.ricardo.gestao_vagas.modules.candidate.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ricardo.gestao_vagas.modules.candidate.CandidateEntity;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.CreateCandidateDTO;
 import br.com.ricardo.gestao_vagas.modules.candidate.use_cases.CreateCandidateUseCase;
-
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.http.ResponseEntity;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -22,7 +19,7 @@ import jakarta.validation.Valid;
 @Tag(name = "Candidate", description = "Operações relacionadas aos candidatos")
 public class CandidateController {
 
-    private CreateCandidateUseCase createCandidateUseCase;
+    private final CreateCandidateUseCase createCandidateUseCase;
 
     public CandidateController(CreateCandidateUseCase createCandidateUseCase) {
         this.createCandidateUseCase = createCandidateUseCase;
