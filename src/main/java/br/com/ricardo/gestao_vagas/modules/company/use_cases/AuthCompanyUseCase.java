@@ -2,10 +2,10 @@ package br.com.ricardo.gestao_vagas.modules.company.use_cases;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +16,7 @@ import br.com.ricardo.gestao_vagas.exceptions.CompanyFoundException;
 import br.com.ricardo.gestao_vagas.exceptions.InvalidCredentialsException;
 import br.com.ricardo.gestao_vagas.modules.company.CompanyRepository;
 import br.com.ricardo.gestao_vagas.modules.company.dto.AuthCompanyDTO;
+import br.com.ricardo.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
 
 @Service
 public class AuthCompanyUseCase {
@@ -31,7 +32,7 @@ public class AuthCompanyUseCase {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public ResponseEntity<Object> execute(AuthCompanyDTO authCompanyDTO) {
+    public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) {
         var company = this.companyRepository.findByUsername(authCompanyDTO.getUsername()).orElseThrow(() -> {
             throw new CompanyFoundException("Username/password incorrect");
         });
@@ -48,9 +49,13 @@ public class AuthCompanyUseCase {
         var token = JWT.create()
                 .withIssuer("javagas")
                 .withSubject(company.getId().toString())
+                .withClaim("role", Arrays.asList("COMPANY"))
                 .withExpiresAt(Date.from(expiresAt))
                 .sign(algorithm);
 
-        return ResponseEntity.ok(token);
+        return AuthCompanyResponseDTO.builder()
+                .access_token(token)
+                .expires_in(expiresAt.toEpochMilli())
+                .build();
     }
 }

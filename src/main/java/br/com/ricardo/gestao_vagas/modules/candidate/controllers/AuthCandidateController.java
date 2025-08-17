@@ -12,7 +12,7 @@ import br.com.ricardo.gestao_vagas.modules.candidate.use_cases.AuthCandidateUseC
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/candidate")
 public class AuthCandidateController {
 
     private final AuthCandidateUseCase authCandidateUseCase;
@@ -21,7 +21,7 @@ public class AuthCandidateController {
         this.authCandidateUseCase = authCandidateUseCase;
     }
 
-    @PostMapping("/candidate")
+    @PostMapping("/auth")
     public ResponseEntity<Object> auth(@Valid @RequestBody AuthCandidateRequestDTO authCandidateRequestDTO) {
         try {
             var token = this.authCandidateUseCase.execute(authCandidateRequestDTO);

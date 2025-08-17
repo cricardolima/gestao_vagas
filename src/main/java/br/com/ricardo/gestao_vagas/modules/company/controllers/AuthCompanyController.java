@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/company")
 @Tag(name = "Auth", description = "Operações de autenticação")
 public class AuthCompanyController {
     private final AuthCompanyUseCase authCompanyUseCase;
@@ -24,7 +24,7 @@ public class AuthCompanyController {
         this.authCompanyUseCase = authCompanyUseCase;
     }
 
-    @PostMapping("/company")
+    @PostMapping("/auth")
     @Operation(summary = "Autenticação de empresa", description = "Autenticação de empresa")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Empresa autenticada com sucesso"),
