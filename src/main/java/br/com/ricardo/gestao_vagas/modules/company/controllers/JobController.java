@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/job")
@@ -29,6 +30,7 @@ public class JobController {
     }
 
     @PostMapping()
+    @PreAuthorize("hasRole('COMPANY')")
     @Operation(summary = "Cadastro de vagas", description = "Essa rota é responsável por cadastrar uma nova vaga")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vaga cadastrada com sucesso", content = @Content(schema = @Schema(implementation = JobEntity.class))),
