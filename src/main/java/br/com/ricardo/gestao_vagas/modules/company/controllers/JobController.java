@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,6 +37,7 @@ public class JobController {
             @ApiResponse(responseCode = "200", description = "Vaga cadastrada com sucesso", content = @Content(schema = @Schema(implementation = JobEntity.class))),
             @ApiResponse(responseCode = "400", description = "Erro ao cadastrar a vaga", content = @Content(schema = @Schema(implementation = Exception.class)))
     })
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<Object> createJob(@Valid @RequestBody CreateJobDTO createJobDTO, HttpServletRequest request) {
         try {
             return ResponseEntity.ok(createJobUseCase.execute(createJobDTO, request));

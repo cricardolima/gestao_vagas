@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.AuthCandidateRequestDTO;
 import br.com.ricardo.gestao_vagas.modules.candidate.use_cases.AuthCandidateUseCase;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/candidate")
+@Tag(name = "Auth Candidate", description = "Operações de autenticação")
 public class AuthCandidateController {
 
     private final AuthCandidateUseCase authCandidateUseCase;

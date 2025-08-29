@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/company")
-@Tag(name = "Auth", description = "Operações de autenticação")
+@Tag(name = "Auth Company", description = "Operações de autenticação")
 public class AuthCompanyController {
     private final AuthCompanyUseCase authCompanyUseCase;
 

@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -30,11 +31,11 @@ public class JobEntity {
     private String level;
     private String benefits;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id")
     private CompanyEntity company;
 
-    @Column(name = "company_id", nullable = false)
+    @Column(name = "company_id", nullable = false, insertable = false, updatable = false)
     private UUID companyId;
 
     @CreationTimestamp
