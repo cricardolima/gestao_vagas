@@ -64,6 +64,7 @@ public class CandidateController {
             @ApiResponse(responseCode = "200", description = "Perfil do candidato encontrado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos")
     })
+    @SecurityRequirement(name = "jwt_auth")
     public ResponseEntity<Object> profileCandidate(HttpServletRequest request) {
         var candidateId = request.getAttribute("candidate_id");
         try {
