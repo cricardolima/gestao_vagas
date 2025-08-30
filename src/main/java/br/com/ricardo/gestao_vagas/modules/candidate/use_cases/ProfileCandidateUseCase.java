@@ -6,8 +6,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import br.com.ricardo.gestao_vagas.exceptions.UserFoundException;
-import br.com.ricardo.gestao_vagas.modules.candidate.CandidateRepository;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.ProfileCandidateResponseDTO;
+import br.com.ricardo.gestao_vagas.modules.candidate.respository.CandidateRepository;
 
 @Service
 public class ProfileCandidateUseCase {

@@ -14,9 +14,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 import br.com.ricardo.gestao_vagas.exceptions.InvalidCredentialsException;
 import br.com.ricardo.gestao_vagas.exceptions.UserFoundException;
-import br.com.ricardo.gestao_vagas.modules.candidate.CandidateRepository;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.AuthCandidateRequestDTO;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.AuthCandidateResponseDTO;
+import br.com.ricardo.gestao_vagas.modules.candidate.respository.CandidateRepository;
 
 @Service
 public class AuthCandidateUseCase {
