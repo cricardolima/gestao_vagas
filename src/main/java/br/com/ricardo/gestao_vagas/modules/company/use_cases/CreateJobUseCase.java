@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import br.com.ricardo.gestao_vagas.modules.company.entities.JobEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import br.com.ricardo.gestao_vagas.modules.company.JobRepository;
+import br.com.ricardo.gestao_vagas.exceptions.CompanyNotFoundException;
 import br.com.ricardo.gestao_vagas.modules.company.CompanyRepository;
 import br.com.ricardo.gestao_vagas.modules.company.dto.CreateJobDTO;
 
@@ -31,7 +32,7 @@ public class CreateJobUseCase {
 
             // Fetch the company entity to establish the JPA relationship
             var company = this.companyRepository.findById(companyId)
-                    .orElseThrow(() -> new RuntimeException("Company not found"));
+                    .orElseThrow(CompanyNotFoundException::new);
 
             jobEntity.setCompany(company);
 
