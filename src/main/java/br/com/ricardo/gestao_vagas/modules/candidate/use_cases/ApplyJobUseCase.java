@@ -13,29 +13,29 @@ import br.com.ricardo.gestao_vagas.modules.company.JobRepository;
 
 @Service
 public class ApplyJobUseCase {
-    private final CandidateRepository candidateRepository;
-    private final JobRepository jobRepository;
-    private final ApplyJobRepository applyJobRepository;
+        private final CandidateRepository candidateRepository;
+        private final JobRepository jobRepository;
+        private final ApplyJobRepository applyJobRepository;
 
-    public ApplyJobUseCase(CandidateRepository candidateRepository, JobRepository jobRepository,
-            ApplyJobRepository applyJobRepository) {
-        this.candidateRepository = candidateRepository;
-        this.jobRepository = jobRepository;
-        this.applyJobRepository = applyJobRepository;
-    }
+        public ApplyJobUseCase(CandidateRepository candidateRepository, JobRepository jobRepository,
+                        ApplyJobRepository applyJobRepository) {
+                this.candidateRepository = candidateRepository;
+                this.jobRepository = jobRepository;
+                this.applyJobRepository = applyJobRepository;
+        }
 
-    public ApplyJobEntity execute(UUID candidateId, UUID jobId) {
-        var candidate = candidateRepository.findById(candidateId)
-                .orElseThrow(UserNotFoundException::new);
-        var job = jobRepository.findById(jobId)
-                .orElseThrow(JobNotFoundException::new);
+        public ApplyJobEntity execute(UUID candidateId, UUID jobId) {
+                var candidate = candidateRepository.findById(candidateId)
+                                .orElseThrow(UserNotFoundException::new);
+                var job = jobRepository.findById(jobId)
+                                .orElseThrow(JobNotFoundException::new);
 
-        var applyJob = ApplyJobEntity.builder()
-                .candidateId(candidate.getId())
-                .jobId(job.getId())
-                .build();
+                var applyJob = ApplyJobEntity.builder()
+                                .candidateId(candidate.getId())
+                                .jobId(job.getId())
+                                .build();
 
-        applyJob = applyJobRepository.save(applyJob);
-        return applyJob;
-    }
+                applyJob = applyJobRepository.save(applyJob);
+                return applyJob;
+        }
 }

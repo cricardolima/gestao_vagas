@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.CreateCandidateDTO;
+import br.com.ricardo.gestao_vagas.modules.candidate.entity.ApplyJobEntity;
+import br.com.ricardo.gestao_vagas.modules.candidate.use_cases.ApplyJobUseCase;
 import br.com.ricardo.gestao_vagas.modules.candidate.use_cases.CreateCandidateUseCase;
 import br.com.ricardo.gestao_vagas.modules.candidate.use_cases.ListAllJobsByFilterUseCase;
 import br.com.ricardo.gestao_vagas.modules.candidate.use_cases.ProfileCandidateUseCase;
@@ -35,12 +37,15 @@ public class CandidateController {
     private final CreateCandidateUseCase createCandidateUseCase;
     private final ProfileCandidateUseCase profileCandidateUseCase;
     private final ListAllJobsByFilterUseCase listAllJobsByFilterUseCase;
+    private final ApplyJobUseCase applyJobUseCase;
 
     public CandidateController(CreateCandidateUseCase createCandidateUseCase,
-            ProfileCandidateUseCase profileCandidateUseCase, ListAllJobsByFilterUseCase listAllJobsByFilterUseCase) {
+            ProfileCandidateUseCase profileCandidateUseCase, ListAllJobsByFilterUseCase listAllJobsByFilterUseCase,
+            ApplyJobUseCase applyJobUseCase) {
         this.createCandidateUseCase = createCandidateUseCase;
         this.profileCandidateUseCase = profileCandidateUseCase;
         this.listAllJobsByFilterUseCase = listAllJobsByFilterUseCase;
+        this.applyJobUseCase = applyJobUseCase;
     }
 
     @PostMapping
@@ -85,6 +90,23 @@ public class CandidateController {
     public ResponseEntity<Object> listAllJobsByFilter(@RequestParam String description) {
         try {
             return ResponseEntity.ok().body(listAllJobsByFilterUseCase.execute(description));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/job/apply")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @Operation(summary = "Aplicar para uma vaga", description = "Aplicar para uma vaga")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Vaga aplicada com sucesso", content = @Content(schema = @Schema(implementation = ApplyJobEntity.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content(schema = @Schema(implementation = Exception.class)))
+    })
+    @SecurityRequirement(name = "jwt_auth")
+    public ResponseEntity<Object> applyJob(HttpServletRequest request, @RequestBody UUID jobId) {
+        var candidateId = request.getAttribute("candidate_id");
+        try {
+            return ResponseEntity.ok().body(applyJobUseCase.execute(UUID.fromString(candidateId.toString()), jobId));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
