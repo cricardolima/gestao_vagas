@@ -8,6 +8,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import br.com.ricardo.gestao_vagas.exceptions.InvalidCredentialsException;
+
 @Service
 public class JWTCompanyProvider {
     @Value("${security.token.secret}")
@@ -21,8 +23,7 @@ public class JWTCompanyProvider {
         try {
             return JWT.require(algorithm).build().verify(token);
         } catch (JWTVerificationException err) {
-            err.printStackTrace();
-            return null;
+            throw new InvalidCredentialsException();
         }
     }
 }

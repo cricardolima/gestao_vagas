@@ -1,34 +1,34 @@
 package br.com.ricardo.gestao_vagas.modules.candidate.use_cases;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.ricardo.gestao_vagas.exceptions.UserFoundException;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.CreateCandidateDTO;
 import br.com.ricardo.gestao_vagas.modules.candidate.entity.CandidateEntity;
+import br.com.ricardo.gestao_vagas.modules.candidate.mapper.CandidateMapper;
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.CandidateRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class CreateCandidateUseCase {
     private final CandidateRepository candidateRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CandidateMapper candidateMapper;
 
-    public CreateCandidateUseCase(CandidateRepository candidateRepository, PasswordEncoder passwordEncoder) {
-        this.candidateRepository = candidateRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    public CandidateEntity execute(CreateCandidateDTO candidate) throws UserFoundException {
+        boolean userExists = candidateRepository.findByUsernameOrEmail(candidate.getUsername(), candidate.getEmail())
+                .isPresent();
 
-    public CandidateEntity execute(CreateCandidateDTO candidate) {
-        candidateRepository.findByUsernameOrEmail(candidate.getUsername(),
-                candidate.getEmail()).ifPresent(user -> {
-                    throw new UserFoundException("Candidate already exists");
-                });
-        var candidateEntity = new CandidateEntity();
-        BeanUtils.copyProperties(candidate, candidateEntity);
+        if (userExists) {
+            throw new UserFoundException();
+        }
 
-        var password = passwordEncoder.encode(candidate.getPassword());
-        candidateEntity.setPassword(password);
+        CandidateEntity candidateEntity = candidateMapper.toCandidateEntity(candidate);
+
+        String encodedPassword = passwordEncoder.encode(candidate.getPassword());
+        candidateEntity.setPassword(encodedPassword);
 
         return candidateRepository.save(candidateEntity);
     }

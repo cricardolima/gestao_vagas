@@ -20,8 +20,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import br.com.ricardo.gestao_vagas.modules.company.CompanyRepository;
 import br.com.ricardo.gestao_vagas.modules.company.entities.CompanyEntity;
+import br.com.ricardo.gestao_vagas.modules.company.repository.CompanyRepository;
 import br.com.ricardo.gestao_vagas.modules.company.dto.CreateJobDTO;
 import br.com.ricardo.gestao_vagas.utils.TestUtils;
 

@@ -21,8 +21,8 @@ import br.com.ricardo.gestao_vagas.modules.candidate.entity.ApplyJobEntity;
 import br.com.ricardo.gestao_vagas.modules.candidate.entity.CandidateEntity;
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.ApplyJobRepository;
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.CandidateRepository;
-import br.com.ricardo.gestao_vagas.modules.company.JobRepository;
 import br.com.ricardo.gestao_vagas.modules.company.entities.JobEntity;
+import br.com.ricardo.gestao_vagas.modules.company.repository.JobRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ApplyJobUseCaseTest {

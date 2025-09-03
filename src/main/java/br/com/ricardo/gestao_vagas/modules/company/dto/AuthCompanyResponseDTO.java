@@ -10,6 +10,6 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthCompanyResponseDTO {
-    private String access_token;
-    private long expires_in;
+    private String accessToken;
+    private long expiresIn;
 }

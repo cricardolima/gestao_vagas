@@ -1,6 +1,10 @@
 package br.com.ricardo.gestao_vagas.exceptions;
 
-public class CompanyNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class CompanyNotFoundException extends BusinessException {
     public CompanyNotFoundException() {
         super("Company not found");
     }

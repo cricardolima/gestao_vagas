@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ExceptionHandlerController {
@@ -32,5 +34,25 @@ public class ExceptionHandlerController {
         });
 
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorMessageDTO> handleBusinessException(BusinessException ex) {
+        // Pega a mensagem diretamente da exceção lançada
+        String message = ex.getMessage();
+        HttpStatus status = HttpStatus.BAD_REQUEST; // Um padrão, caso não encontre a anotação
+
+        // Procura pela anotação @ResponseStatus na classe da exceção que foi lançada
+        ResponseStatus responseStatus = AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class);
+
+        if (responseStatus != null) {
+            status = responseStatus.value(); // Pega o HttpStatus definido na anotação
+        }
+
+        // Cria o DTO de erro
+        ErrorMessageDTO error = new ErrorMessageDTO(message);
+
+        // Retorna a resposta com o status dinâmico
+        return new ResponseEntity<>(error, status);
     }
 }

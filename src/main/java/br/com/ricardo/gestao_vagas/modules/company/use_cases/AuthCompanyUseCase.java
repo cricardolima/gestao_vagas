@@ -14,11 +14,13 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 import br.com.ricardo.gestao_vagas.exceptions.CompanyFoundException;
 import br.com.ricardo.gestao_vagas.exceptions.InvalidCredentialsException;
-import br.com.ricardo.gestao_vagas.modules.company.CompanyRepository;
 import br.com.ricardo.gestao_vagas.modules.company.dto.AuthCompanyDTO;
 import br.com.ricardo.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
+import br.com.ricardo.gestao_vagas.modules.company.repository.CompanyRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class AuthCompanyUseCase {
 
     @Value("${security.token.secret}")
@@ -27,20 +29,15 @@ public class AuthCompanyUseCase {
     private final CompanyRepository companyRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthCompanyUseCase(CompanyRepository companyRepository, PasswordEncoder passwordEncoder) {
-        this.companyRepository = companyRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) {
         var company = this.companyRepository.findByUsername(authCompanyDTO.getUsername()).orElseThrow(() -> {
-            throw new CompanyFoundException("Username/password incorrect");
+            throw new CompanyFoundException();
         });
 
         var passwordMatches = this.passwordEncoder.matches(authCompanyDTO.getPassword(), company.getPassword());
 
         if (!passwordMatches) {
-            throw new InvalidCredentialsException("Username/password incorrect");
+            throw new InvalidCredentialsException();
         }
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
@@ -54,8 +51,8 @@ public class AuthCompanyUseCase {
                 .sign(algorithm);
 
         return AuthCompanyResponseDTO.builder()
-                .access_token(token)
-                .expires_in(expiresAt.toEpochMilli())
+                .accessToken(token)
+                .expiresIn(expiresAt.toEpochMilli())
                 .build();
     }
 }

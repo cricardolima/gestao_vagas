@@ -1,6 +1,10 @@
 package br.com.ricardo.gestao_vagas.exceptions;
 
-public class JobNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class JobNotFoundException extends BusinessException {
     public JobNotFoundException() {
         super("Job not found");
     }

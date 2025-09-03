@@ -10,19 +10,14 @@ import br.com.ricardo.gestao_vagas.modules.candidate.entity.ApplyJobEntity;
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.ApplyJobRepository;
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.CandidateRepository;
 import br.com.ricardo.gestao_vagas.modules.company.JobRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class ApplyJobUseCase {
         private final CandidateRepository candidateRepository;
         private final JobRepository jobRepository;
         private final ApplyJobRepository applyJobRepository;
-
-        public ApplyJobUseCase(CandidateRepository candidateRepository, JobRepository jobRepository,
-                        ApplyJobRepository applyJobRepository) {
-                this.candidateRepository = candidateRepository;
-                this.jobRepository = jobRepository;
-                this.applyJobRepository = applyJobRepository;
-        }
 
         public ApplyJobEntity execute(UUID candidateId, UUID jobId) {
                 var candidate = candidateRepository.findById(candidateId)

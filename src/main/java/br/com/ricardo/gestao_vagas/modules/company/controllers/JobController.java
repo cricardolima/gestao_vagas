@@ -19,16 +19,14 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.AllArgsConstructor;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/job")
 @Tag(name = "Vagas", description = "Informações de vagas")
 public class JobController {
     private final CreateJobUseCase createJobUseCase;
-
-    public JobController(CreateJobUseCase createJobUseCase) {
-        this.createJobUseCase = createJobUseCase;
-    }
 
     @PostMapping()
     @PreAuthorize("hasRole('COMPANY')")
@@ -38,12 +36,8 @@ public class JobController {
             @ApiResponse(responseCode = "400", description = "Erro ao cadastrar a vaga", content = @Content(schema = @Schema(implementation = Exception.class)))
     })
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<Object> createJob(@Valid @RequestBody CreateJobDTO createJobDTO, HttpServletRequest request) {
-        try {
-            return ResponseEntity.ok(createJobUseCase.execute(createJobDTO, request));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public JobEntity createJob(@Valid @RequestBody CreateJobDTO createJobDTO, HttpServletRequest request) {
+        return createJobUseCase.execute(createJobDTO, request);
     }
 
 }

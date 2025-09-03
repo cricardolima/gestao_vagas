@@ -13,12 +13,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import br.com.ricardo.gestao_vagas.exceptions.InvalidCredentialsException;
-import br.com.ricardo.gestao_vagas.exceptions.UserFoundException;
+import br.com.ricardo.gestao_vagas.exceptions.UserNotFoundException;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.AuthCandidateRequestDTO;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.AuthCandidateResponseDTO;
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.CandidateRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class AuthCandidateUseCase {
 
     @Value("${security.token.secret.candidate}")
@@ -27,20 +29,15 @@ public class AuthCandidateUseCase {
     private final CandidateRepository candidateRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthCandidateUseCase(CandidateRepository candidateRepository, PasswordEncoder passwordEncoder) {
-        this.candidateRepository = candidateRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     public AuthCandidateResponseDTO execute(AuthCandidateRequestDTO authCandidateDTO) {
         var candidate = candidateRepository.findByUsername(authCandidateDTO.username()).orElseThrow(() -> {
-            throw new UserFoundException("User not found");
+            throw new UserNotFoundException();
         });
 
         var passwordMatches = passwordEncoder.matches(authCandidateDTO.password(), candidate.getPassword());
 
         if (!passwordMatches) {
-            throw new InvalidCredentialsException("Username/password incorrect");
+            throw new InvalidCredentialsException();
         }
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
@@ -54,8 +51,8 @@ public class AuthCandidateUseCase {
                 .sign(algorithm);
 
         return AuthCandidateResponseDTO.builder()
-                .access_token(token)
-                .expires_in(expiresAt.toEpochMilli())
+                .accessToken(token)
+                .expiresIn(expiresAt.toEpochMilli())
                 .build();
     }
 }

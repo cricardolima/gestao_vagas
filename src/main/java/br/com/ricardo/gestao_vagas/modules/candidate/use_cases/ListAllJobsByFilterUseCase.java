@@ -7,15 +7,17 @@ import br.com.ricardo.gestao_vagas.modules.company.entities.JobEntity;
 
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class ListAllJobsByFilterUseCase {
     private final JobRepository jobRepository;
 
-    public ListAllJobsByFilterUseCase(JobRepository jobRepository) {
-        this.jobRepository = jobRepository;
-    }
-
     public List<JobEntity> execute(String description) {
+        if (description == null) {
+            return jobRepository.findAll();
+        }
         return jobRepository.findByDescriptionContainingIgnoreCase(description);
     }
 }
