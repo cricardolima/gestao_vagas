@@ -9,7 +9,7 @@ import br.com.ricardo.gestao_vagas.exceptions.UserNotFoundException;
 import br.com.ricardo.gestao_vagas.modules.candidate.entity.ApplyJobEntity;
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.ApplyJobRepository;
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.CandidateRepository;
-import br.com.ricardo.gestao_vagas.modules.company.JobRepository;
+import br.com.ricardo.gestao_vagas.modules.company.repository.JobRepository;
 import lombok.AllArgsConstructor;
 
 @Service

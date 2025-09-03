@@ -1,4 +1,4 @@
-package br.com.ricardo.gestao_vagas.modules.company;
+package br.com.ricardo.gestao_vagas.modules.company.repository;
 
 import java.util.Optional;
 import java.util.UUID;

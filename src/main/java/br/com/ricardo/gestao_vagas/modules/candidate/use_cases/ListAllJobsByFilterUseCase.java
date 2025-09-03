@@ -2,8 +2,8 @@ package br.com.ricardo.gestao_vagas.modules.candidate.use_cases;
 
 import java.util.List;
 
-import br.com.ricardo.gestao_vagas.modules.company.JobRepository;
 import br.com.ricardo.gestao_vagas.modules.company.entities.JobEntity;
+import br.com.ricardo.gestao_vagas.modules.company.repository.JobRepository;
 
 import org.springframework.stereotype.Service;
 
