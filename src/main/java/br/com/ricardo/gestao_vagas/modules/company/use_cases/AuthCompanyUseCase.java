@@ -17,10 +17,8 @@ import br.com.ricardo.gestao_vagas.exceptions.InvalidCredentialsException;
 import br.com.ricardo.gestao_vagas.modules.company.dto.AuthCompanyDTO;
 import br.com.ricardo.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
 import br.com.ricardo.gestao_vagas.modules.company.repository.CompanyRepository;
-import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class AuthCompanyUseCase {
 
     @Value("${security.token.secret}")
@@ -28,6 +26,11 @@ public class AuthCompanyUseCase {
 
     private final CompanyRepository companyRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public AuthCompanyUseCase(CompanyRepository companyRepository, PasswordEncoder passwordEncoder) {
+        this.companyRepository = companyRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) {
         var company = this.companyRepository.findByUsername(authCompanyDTO.getUsername()).orElseThrow(() -> {

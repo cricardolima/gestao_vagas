@@ -17,10 +17,8 @@ import br.com.ricardo.gestao_vagas.exceptions.UserNotFoundException;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.AuthCandidateRequestDTO;
 import br.com.ricardo.gestao_vagas.modules.candidate.dto.AuthCandidateResponseDTO;
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.CandidateRepository;
-import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class AuthCandidateUseCase {
 
     @Value("${security.token.secret.candidate}")
@@ -28,6 +26,11 @@ public class AuthCandidateUseCase {
 
     private final CandidateRepository candidateRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public AuthCandidateUseCase(CandidateRepository candidateRepository, PasswordEncoder passwordEncoder) {
+        this.candidateRepository = candidateRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public AuthCandidateResponseDTO execute(AuthCandidateRequestDTO authCandidateDTO) {
         var candidate = candidateRepository.findByUsername(authCandidateDTO.username()).orElseThrow(() -> {
