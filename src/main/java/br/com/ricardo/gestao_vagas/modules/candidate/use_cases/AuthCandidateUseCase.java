@@ -2,8 +2,8 @@ package br.com.ricardo.gestao_vagas.modules.candidate.use_cases;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,19 +43,23 @@ public class AuthCandidateUseCase {
             throw new InvalidCredentialsException();
         }
 
+        var roles = List.of("CANDIDATE");
+
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         var expiresAt = Instant.now().plus(Duration.ofMinutes(15));
 
         var token = JWT.create()
                 .withIssuer("javagas")
                 .withSubject(candidate.getId().toString())
-                .withClaim("role", Arrays.asList("CANDIDATE"))
+                .withClaim("role", roles)
                 .withExpiresAt(Date.from(expiresAt))
                 .sign(algorithm);
+        IO.println(token);
 
         return AuthCandidateResponseDTO.builder()
                 .accessToken(token)
                 .expiresIn(expiresAt.toEpochMilli())
+                .roles(roles)
                 .build();
     }
 }
