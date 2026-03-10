@@ -9,6 +9,7 @@ import br.com.ricardo.gestao_vagas.modules.candidate.dto.ProfileCandidateRespons
 import br.com.ricardo.gestao_vagas.modules.candidate.mapper.CandidateMapper;
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.CandidateRepository;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @Service
 @AllArgsConstructor
@@ -16,15 +17,9 @@ public class ProfileCandidateUseCase {
     private final CandidateRepository candidateRepository;
     private final CandidateMapper profileCandidateMapper;
 
-    public ProfileCandidateResponseDTO execute(UUID id) throws UserNotFoundException {
-        try {
-            var candidate = candidateRepository.findById(id).orElseThrow(() -> {
-                throw new UserNotFoundException();
-            });
+    public ProfileCandidateResponseDTO execute(@NonNull UUID id) throws UserNotFoundException {
+        var candidate = candidateRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
-            return profileCandidateMapper.toProfileCandidateResponseDTO(candidate);
-        } catch (Exception e) {
-            throw new UserNotFoundException();
-        }
+        return profileCandidateMapper.toProfileCandidateResponseDTO(candidate);
     }
 }

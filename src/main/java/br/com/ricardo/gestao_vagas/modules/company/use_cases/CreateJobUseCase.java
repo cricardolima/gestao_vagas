@@ -21,6 +21,7 @@ public class CreateJobUseCase {
     private final CompanyRepository companyRepository;
     private final JobMapper jobMapper;
 
+    @SuppressWarnings("null")
     public JobEntity execute(CreateJobDTO createJobDTO, HttpServletRequest request) {
         var jobEntity = jobMapper.toJobEntity(createJobDTO);
 

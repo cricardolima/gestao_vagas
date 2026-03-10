@@ -11,6 +11,7 @@ import br.com.ricardo.gestao_vagas.modules.candidate.respository.ApplyJobReposit
 import br.com.ricardo.gestao_vagas.modules.candidate.respository.CandidateRepository;
 import br.com.ricardo.gestao_vagas.modules.company.repository.JobRepository;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @Service
 @AllArgsConstructor
@@ -19,7 +20,8 @@ public class ApplyJobUseCase {
         private final JobRepository jobRepository;
         private final ApplyJobRepository applyJobRepository;
 
-        public ApplyJobEntity execute(UUID candidateId, UUID jobId) {
+        @SuppressWarnings("null")
+        public ApplyJobEntity execute(@NonNull UUID candidateId, @NonNull UUID jobId) {
                 var candidate = candidateRepository.findById(candidateId)
                                 .orElseThrow(UserNotFoundException::new);
                 var job = jobRepository.findById(jobId)
@@ -30,7 +32,6 @@ public class ApplyJobUseCase {
                                 .jobId(job.getId())
                                 .build();
 
-                applyJob = applyJobRepository.save(applyJob);
-                return applyJob;
+                return applyJobRepository.save(applyJob);
         }
 }
